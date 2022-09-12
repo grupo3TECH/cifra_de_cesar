@@ -10,7 +10,7 @@ chave = int(sg.popup_get_text("Digite a chave para encriptação: ", title="Esco
 
 escolha = int(sg.popup_get_text("Deseja encriptar ou decriptar sua mensagem? \nDigite 1 para encriptar; \nDigite 2 para decriptar;", title="Eis a questão...", text_color = 'black', background_color = 'RoyalBlue', location = (500,250)))
 
-alfabeto = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',' '] #Como convertemos toda a frase para letras em maiúsculo podemos definir somente as letras em maiúsculo do alfabeto
+alfabeto = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'] #Como convertemos toda a frase para letras em maiúsculo podemos definir somente as letras em maiúsculo do alfabeto
 
 fraseConvertidaArray = []
 
@@ -18,12 +18,14 @@ if 0 < chave < 26:
     if escolha == 1:
         
         for i in fraseFormatadaArray:
-            posicao = alfabeto.index(i)
-            if i == ' ':
-                nova_Posicao = posicao
-            else:
+            try:
+                posicao = alfabeto.index(i)
                 nova_Posicao = posicao + chave
-            caractere_criptografado = alfabeto[nova_Posicao % len(alfabeto)]
+                caractere_criptografado = alfabeto[nova_Posicao % len(alfabeto)]
+                
+            except ValueError:
+                caractere_criptografado = i
+
             fraseConvertidaArray.append(caractere_criptografado)
             fraseImpressaUsuario = ''.join(fraseConvertidaArray).lower()
 
@@ -32,14 +34,17 @@ if 0 < chave < 26:
     elif escolha == 2:
         
         for i in fraseFormatadaArray:
-            posicao = alfabeto.index(i)
-            if i == ' ':
-                nova_Posicao = posicao
-            else:
+            try:
+                posicao = alfabeto.index(i)
                 nova_Posicao = posicao - chave
-            caractere_decriptado = alfabeto[nova_Posicao % len(alfabeto)]
-            fraseConvertidaArray.append(caractere_decriptado)
+                caractere_criptografado = alfabeto[nova_Posicao % len(alfabeto)]
+                
+            except ValueError:
+                caractere_criptografado = i
+
+            fraseConvertidaArray.append(caractere_criptografado)
             fraseImpressaUsuario = ''.join(fraseConvertidaArray).lower()
+
         sg.popup("Sua frase decriptada é: ", fraseImpressaUsuario, title="Decriptada", text_color = 'black', background_color = 'RoyalBlue', location = (500,250))
 
     else:
